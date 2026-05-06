@@ -1505,14 +1505,21 @@ window.onload = function () {
             }
 
             if (e.canFire) {
-                var dx = (e.x + e.w / 2) - planeCX;
-                var dy = (e.y + e.h / 2) - planeCY;
-                var dist = Math.sqrt(dx * dx + dy * dy);
-
-                if (dist <= e.fireMaxRange && dist >= e.fireMinRange) {
+                if (e.type === "elite") {
                     if (now >= e.nextFireTime) {
-                        fireEnemyBullet(e);
+                        fireEliteRocket(e);
                         e.nextFireTime = now + e.fireCooldown;
+                    }
+                } else {
+                    var dx = (e.x + e.w / 2) - planeCX;
+                    var dy = (e.y + e.h / 2) - planeCY;
+                    var dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist <= e.fireMaxRange && dist >= e.fireMinRange) {
+                        if (now >= e.nextFireTime) {
+                            fireEnemyBullet(e);
+                            e.nextFireTime = now + e.fireCooldown;
+                        }
                     }
                 }
             }
